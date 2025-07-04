@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/ghivarra/davion-panel-asset-go/common"
-	"github.com/ghivarra/davion-panel-asset-go/module/controller/assets/image"
-	"github.com/ghivarra/davion-panel-asset-go/module/controller/assets/upload"
+	imageController "github.com/ghivarra/davion-panel-asset-go/module/controller/assets/image-controller"
+	uploadController "github.com/ghivarra/davion-panel-asset-go/module/controller/assets/upload-controller"
 	"github.com/ghivarra/davion-panel-asset-go/module/controller/home"
 	corsMiddleware "github.com/ghivarra/davion-panel-asset-go/module/middleware/cors-middleware"
 	"github.com/gin-gonic/gin"
@@ -22,9 +22,9 @@ func Load(router *gin.Engine) *gin.Engine {
 
 	// asset router group
 	router.MaxMultipartMemory = 32 << 20 // set max memory to 32 MB
-	assetRouterGroup := router.Group("/assets", corsMiddleware.Run)
-	assetRouterGroup.POST("/upload", upload.Index)
-	assetRouterGroup.GET("/image/*path", image.Get)
+	assetRouterGroup := router.Group("/assets")
+	assetRouterGroup.POST("/upload", corsMiddleware.Run, uploadController.Index)
+	assetRouterGroup.GET("/image/*path", imageController.Get)
 
 	// return router to be served by server
 	return router

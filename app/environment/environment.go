@@ -18,6 +18,10 @@ var UPLOAD_FOLDER string
 var ALLOWED_HOST []string
 var ALLOWED_FILE_MIME []string
 
+// img env
+var ALLOWED_IMAGE_WIDTH []string
+var ALLOWED_IMAGE_HEIGHT []string
+
 func Save() {
 
 	// main env
@@ -32,4 +36,8 @@ func Save() {
 	UPLOAD_FOLDER = os.Getenv("UPLOAD_FOLDER")
 	ALLOWED_HOST = strings.Split(os.Getenv("ALLOWED_HOST"), "|")
 	ALLOWED_FILE_MIME = strings.Split(os.Getenv("ALLOWED_FILE_MIME"), "|")
+
+	// image env
+	ALLOWED_IMAGE_WIDTH = strings.Split(os.Getenv("ALLOWED_IMAGE_WIDTH"), "|")
+	ALLOWED_IMAGE_HEIGHT = strings.Split(os.Getenv("ALLOWED_IMAGE_HEIGHT"), "|")
 }

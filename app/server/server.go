@@ -15,6 +15,9 @@ func Run() {
 	// load router
 	ginRouter = router.Load(ginRouter)
 
+	// use recovery
+	ginRouter.Use(gin.Recovery())
+
 	// serve
 	ginRouter.Run(fmt.Sprintf("%s:%s", environment.SERVER_HOST, environment.SERVER_PORT))
 }

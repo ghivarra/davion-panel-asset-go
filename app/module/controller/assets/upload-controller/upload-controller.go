@@ -1,4 +1,4 @@
-package upload
+package uploadController
 
 import (
 	"fmt"
@@ -85,8 +85,8 @@ func Index(c *gin.Context) {
 	// then we send it into public/dist
 	// and return
 	if strings.HasPrefix(detect.String(), "image") {
-		newFilePath = fmt.Sprintf("%s/%s/%s/%s", common.ROOTPATH, environment.UPLOAD_FOLDER, form.FolderPath, form.Name)
-		newURIPath = fmt.Sprintf("assets/%s/%s", form.FolderPath, form.Name)
+		newFilePath = fmt.Sprintf("%s/%s/image/%s/%s", common.ROOTPATH, environment.UPLOAD_FOLDER, form.FolderPath, form.Name)
+		newURIPath = fmt.Sprintf("assets/image/%s/%s", form.FolderPath, form.Name)
 	} else {
 		newFilePath = fmt.Sprintf("%s/public/dist/%s/%s", common.ROOTPATH, form.FolderPath, form.Name)
 		newURIPath = fmt.Sprintf("dist/%s/%s", form.FolderPath, form.Name)

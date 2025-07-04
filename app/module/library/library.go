@@ -2,10 +2,26 @@ package library
 
 import (
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
+
+func FileExist(path string) bool {
+	_, err := os.Stat(path)
+
+	// if not error then file exist
+	if err == nil {
+		return true
+	}
+
+	if os.IsNotExist(err) {
+		return false
+	}
+
+	return false
+}
 
 func RandomString(length int) string {
 	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
