@@ -33,6 +33,7 @@ tmp/*
 # uploads dir
 upload/*
 !upload/index.html
+public/dist/*
 
 # Editor/IDE
 # .idea/

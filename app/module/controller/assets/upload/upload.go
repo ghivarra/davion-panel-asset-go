@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"mime/multipart"
 	"os"
-	"slices"
 	"strings"
 
 	"github.com/gabriel-vasile/mimetype"
@@ -18,6 +17,18 @@ type FormUpload struct {
 	FolderPath string                `form:"path" binding:"required"`
 	Name       string                `form:"name" binding:"max=128"`
 	File       *multipart.FileHeader `form:"file" binding:"required"`
+}
+
+func checkMimeType(mime *mimetype.MIME, allowedMime []string) bool {
+	result := false
+	for _, allowed := range allowedMime {
+		if mime.Is(allowed) {
+			result = true
+			break
+		}
+	}
+
+	return result
 }
 
 func Index(c *gin.Context) {
@@ -48,16 +59,15 @@ func Index(c *gin.Context) {
 		} else {
 			library.SendErrorResponse(c, 400, "Failed to upload file/files. Reason: File cannot be recognized.")
 		}
+		return
 	}
 
-	mime := detect.String()
-
-	// check if file type is in allowed
 	allowedMime := environment.ALLOWED_FILE_MIME
-	isAllowed := slices.Contains(allowedMime, mime)
-	if !isAllowed {
+
+	if !checkMimeType(detect, allowedMime) {
 		errMessage := fmt.Sprintf("Failed to upload file/files. Reason: File type is not allowed. Allowed File type: %s", strings.Join(allowedMime, ", "))
 		library.SendErrorResponse(c, 400, errMessage)
+		return
 	}
 
 	// generate random name if name is not supplied
@@ -67,8 +77,22 @@ func Index(c *gin.Context) {
 		form.Name = library.RandomString(32) + extension
 	}
 
+	// set variables
+	var newFilePath string
+	var newURIPath string
+
+	// if mime is not image
+	// then we send it into public/dist
+	// and return
+	if strings.HasPrefix(detect.String(), "image") {
+		newFilePath = fmt.Sprintf("%s/%s/%s/%s", common.ROOTPATH, environment.UPLOAD_FOLDER, form.FolderPath, form.Name)
+		newURIPath = fmt.Sprintf("assets/%s/%s", form.FolderPath, form.Name)
+	} else {
+		newFilePath = fmt.Sprintf("%s/public/dist/%s/%s", common.ROOTPATH, form.FolderPath, form.Name)
+		newURIPath = fmt.Sprintf("dist/%s/%s", form.FolderPath, form.Name)
+	}
+
 	// move uploaded file to new folder based on path
-	newFilePath := fmt.Sprintf("%s/%s/%s", environment.UPLOAD_FOLDER, form.FolderPath, form.Name)
 	c.SaveUploadedFile(form.File, newFilePath)
 
 	// remove temp file
@@ -79,7 +103,7 @@ func Index(c *gin.Context) {
 		"status":  "success",
 		"message": "File has been succesfully uploaded.",
 		"data": gin.H{
-			"uri": fmt.Sprintf("assets/%s/%s", form.FolderPath, form.Name),
+			"uri": newURIPath,
 		},
 	})
 }
