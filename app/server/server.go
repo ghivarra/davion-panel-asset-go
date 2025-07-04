@@ -2,16 +2,13 @@ package server
 
 import (
 	"fmt"
-	"os"
 
+	"github.com/ghivarra/davion-panel-asset-go/environment"
 	"github.com/ghivarra/davion-panel-asset-go/router"
 	"github.com/gin-gonic/gin"
 )
 
 func Run() {
-	serverHost := os.Getenv("SERVER_HOST")
-	serverPort := os.Getenv("SERVER_PORT")
-
 	// load gin engine
 	ginRouter := gin.Default()
 
@@ -19,5 +16,5 @@ func Run() {
 	ginRouter = router.Load(ginRouter)
 
 	// serve
-	ginRouter.Run(fmt.Sprintf("%s:%s", serverHost, serverPort))
+	ginRouter.Run(fmt.Sprintf("%s:%s", environment.SERVER_HOST, environment.SERVER_PORT))
 }

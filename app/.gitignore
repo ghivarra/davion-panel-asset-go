@@ -30,6 +30,10 @@ go.work.sum
 # tmp folder from air
 tmp/*
 
+# uploads dir
+upload/*
+!upload/index.html
+
 # Editor/IDE
 # .idea/
 # .vscode/
