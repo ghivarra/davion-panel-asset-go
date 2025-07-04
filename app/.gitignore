@@ -31,9 +31,13 @@ go.work.sum
 tmp/*
 
 # uploads dir
-upload/*
-!upload/index.html
-public/dist/*
+/upload/*
+!/upload/index.html
+/public/dist/*
+
+# ignore build and dist file for compiled
+/dist/*
+/build/*
 
 # Editor/IDE
 # .idea/
