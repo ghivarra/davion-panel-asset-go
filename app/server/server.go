@@ -10,14 +10,22 @@ import (
 
 func Run() {
 	// load gin engine
-	ginRouter := gin.Default()
+	var engine *gin.Engine
+
+	if environment.ENV == "development" {
+		engine = gin.Default()
+	} else {
+		engine = gin.New()
+	}
 
 	// load router
-	ginRouter = router.Load(ginRouter)
+	engine = router.Load(engine)
 
 	// use recovery
-	ginRouter.Use(gin.Recovery())
+	engine.Use(gin.Recovery())
 
 	// serve
-	ginRouter.Run(fmt.Sprintf("%s:%s", environment.SERVER_HOST, environment.SERVER_PORT))
+	config := fmt.Sprintf("%s:%s", environment.SERVER_HOST, environment.SERVER_PORT)
+	fmt.Printf("Server is listening to %s", config)
+	engine.Run(config)
 }
