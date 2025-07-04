@@ -17,6 +17,7 @@ func Load(router *gin.Engine) *gin.Engine {
 	router.GET("/", home.Index)
 
 	// favicon
+	router.Static("/dist", fmt.Sprintf("%s/public/dist", common.ROOTPATH))
 	router.StaticFile("/favicon.ico", fmt.Sprintf("%s/public/favicon.ico", common.ROOTPATH))
 
 	// asset router group
