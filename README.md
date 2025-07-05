@@ -90,4 +90,5 @@ The default is `200|360|720`
 
 # Supported Image Format
 JPEG, PNG, and GIF
+
 __a bit sad, I know, but expect to support more format later!__
