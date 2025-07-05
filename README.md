@@ -1,25 +1,34 @@
 # Go Asset Management & Dynamic Image Resizing
-Asset Management & Dynamic Image Resizing using Go Programming language.
+Asset Management & Dynamic Image Resizing using Go Programming language. The resized image would be stored/cached so the Go server would act like a static file router after the first resize with the same parameter.
 
-- Tested on PHP 8.0 and higher on Windows Server
-- Tested on PHP 8.0 and higher on Linux Server
+- Tested on Go 1.24 on Windows Server
+- Tested on Go 1.24 on Linux Server
 
 ## Upload Endpoint
 You can modify the endpoint inside `./app/router/router.go` anytime you want. But as of now, the default is in: `http://yoursite.com/assets/upload`. With parameter:
-- `path` (string|required) your folder path in upload folder. For example, if the upload folder is in `./app/upload` then the uploaded directory path would be `./app/upload/supplied_path` or `./public/dist/supplied_path` if not an image.
-- `name` (string|optional) the name of the uploaded file. If not supplied, then the app will create a new random name.
-- `file` (file|required) the file parameter.
+
+- `path` **(string | required)** 
+
+Your folder path in upload folder. For example, if the upload folder is in `./app/upload` then the uploaded directory path would be `./app/upload/supplied_path` or `./public/dist/supplied_path` if not an image.
+
+- `name` **(string | optional)**
+
+The name of the uploaded file. If not supplied, then the app will create a new random name.
+
+- `file` **(file | required)** 
+
+The file parameter. The default max size is 32 MB, but you can change it anytime you want in `./app/router/router.go`
 
 
 ## Basic Example on How To Get
 For example, you wanted to dynamic resize image named **logo.jpg** with specific size such as: **width = 100px** and **height = 72px** with **non-constraint scaling** or forced resizing priority so the image is exactly on that specific size.
 
 1. Store your logo.jpg inside resources folder
-2. Access your dynamic images using this url: http://yoursite.com/assets/image/path/to/logo_w-100_h-72_p-forced.jpg
+2. Access your dynamic images using this url: http://yoursite.com/assets/image/path/to/logo.jpg?width=200&height=72&priority=forced
 
 As you can see, we use 100 after the letter 'w' which stand for width and 72 after the letter 'h' which stand for height. We also use forced after the letter 'p' which stand for priority.
 
-## 'p' for Constraint
+## 'priority' for Priority
 There are four options for this setting. The default option `width`.
 - forced
 The image will be forced to resize based on your width and height settings.
@@ -30,10 +39,10 @@ The image will be scaled based on your height settings. For example if you wante
 - real
 The image won't be modified and sent as it is.
 
-## 'w' for Width
+## 'width' for Width
 You can set your preferred width for the image on this option.
 
-## 'h' for Height
+## 'height' for Height
 You can set your preferred height for the image on this option.
 
 ## Configuration
