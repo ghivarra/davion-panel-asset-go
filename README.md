@@ -23,10 +23,11 @@ The file parameter. The default max size is 32 MB, but you can change it anytime
 ## Basic Example on How To Get
 For example, you wanted to dynamic resize image named **logo.jpg** with specific size such as: **width = 100px** and **height = 72px** with **non-constraint scaling** or forced resizing priority so the image is exactly on that specific size.
 
-1. Store your logo.jpg inside resources folder
-2. Access your dynamic images using this url: http://yoursite.com/assets/image/path/to/logo.jpg?width=200&height=72&priority=forced
+1. Upload your file on **Upload Endpoint**
+2. The upload request would sent back the image URI if succesfully uploaded.
+2. Access your dynamic images using the URI with query parameter for example: http://yoursite.com/assets/image/path/to/logo.jpg?width=200&height=72&priority=forced
 
-As you can see, we use 100 after the letter 'w' which stand for width and 72 after the letter 'h' which stand for height. We also use forced after the letter 'p' which stand for priority.
+As you can see, we use 100 after the letter 'width' which stand for image width and 72 after the letter 'height' which stand for image height. We also use forced after the letter 'priority' which stand for resizing priority.
 
 ## 'priority' for Priority
 There are four options for this setting. The default option `width`.
