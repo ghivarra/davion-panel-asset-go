@@ -14,7 +14,7 @@ import (
 )
 
 type FormUpload struct {
-	FolderPath string                `form:"path" binding:"required"`
+	FolderPath string                `form:"path" binding:"required,max=128"`
 	Name       string                `form:"name" binding:"max=128"`
 	File       *multipart.FileHeader `form:"file" binding:"required"`
 }

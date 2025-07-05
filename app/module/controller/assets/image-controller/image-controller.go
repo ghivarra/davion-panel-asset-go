@@ -117,7 +117,7 @@ func Get(c *gin.Context) {
 	// get file
 	reqPath := c.Param("path")
 	reqPath = strings.ReplaceAll(reqPath, "\\", "/")
-	filePath := fmt.Sprintf("%s/upload/image/%s", common.ROOTPATH, reqPath)
+	filePath := fmt.Sprintf("%s/%s/image/%s", common.ROOTPATH, environment.UPLOAD_FOLDER, reqPath)
 
 	// send error if file not exist
 	if !library.FileExist(filePath) {
@@ -146,7 +146,7 @@ func Get(c *gin.Context) {
 	}
 
 	// form dist name and folder
-	distFolder := fmt.Sprintf("%s/upload/dist/image", common.ROOTPATH)
+	distFolder := fmt.Sprintf("%s/%s/dist/image", common.ROOTPATH, environment.UPLOAD_FOLDER)
 	distName := buildDistFileName(options, reqPath)
 
 	if strings.Contains(distName[1:], "/") {
